@@ -1,10 +1,16 @@
 import Player from './components/Player.jsx';
-
+import TimerComponents from './components/TimerComponents.jsx'
+import ResultModal from './components/ResultModal.jsx';
 function App() {
   return (
     <>
+    <ResultModal></ResultModal>
       <Player />
-      <div id="challenges"></div>
+      <div id="challenges">
+      <TimerComponents></TimerComponents>
+      </div>
+      
+      
     </>
   );
 }
