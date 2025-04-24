@@ -3,38 +3,39 @@ import ResultModal from "./ResultModal";
 import React from "react";
 
 export default function TimerComponents({ title = "Easy", time = 5 }: { title?: string; time?: number }) {
-    const timeRef = useRef<number | null>(null);
+    const timeRef = useRef<number>();
+    timeRef.current?.toString
     //Define một ref dialog có chức năng open
     const dialog = useRef<{ open: () => void }>(null);
-    const [timeStart, setTimeStart] = useState<boolean | null>(null);
     const [timeExpire, setTimeExpire] = useState(false);
+    const [remain, setRemain] = useState(time * 1000)
+    const timeStart = remain > 0 && remain < time * 1000
 
     function handleStart() {
-        timeRef.current = setTimeout(() => {
-            handleExpire();
-            dialog.current?.open();
-        }, time * 1000);
-        setTimeStart(true);
-        setTimeExpire(false);
+        timeRef.current = setInterval(() => {
+            setRemain(prev => prev - 10)
+        }, 10);
     }
 
     function handleStop() {
-        if (timeRef.current) clearTimeout(timeRef.current);
-        setTimeStart(false);
+        dialog.current?.open()
+        clearInterval(timeRef.current);
+    }
+    function hanldeReset() {
+        setRemain(time*1000);
     }
 
-    function handleExpire() {
-        if (timeRef.current) clearTimeout(timeRef.current);
-        setTimeExpire(true);
-        setTimeStart(false);
+    if (remain <= 0) {
+        clearInterval(timeRef.current);
+        dialog.current?.open()
+        
     }
 
     return (
         <>
-            <ResultModal ref={dialog} time={time} />
+            <ResultModal ref={dialog} time={time} timeRemain={remain} onReset={hanldeReset}/>
             <section className="challenge">
                 <h2>{title}</h2>
-                <p>{timeExpire && "You lose"}</p>
                 <p className="challenge-time">{time}</p>
                 <p>
                     <button onClick={timeStart ? handleStop : handleStart}>
@@ -42,8 +43,7 @@ export default function TimerComponents({ title = "Easy", time = 5 }: { title?: 
                     </button>
                 </p>
                 <p className={timeStart ? "active" : undefined}>
-                    {timeStart === null ? " " : timeStart ? "Time is running" : "Time is stopped"}
-                </p>
+                    {timeStart ? "Time is running" : "Time is stopped"}                </p>
             </section>
         </>
     );
