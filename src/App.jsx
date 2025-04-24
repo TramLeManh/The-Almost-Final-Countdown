@@ -8,8 +8,6 @@ function App() {
       <div id="challenges">
       <TimerComponents></TimerComponents>
       </div>
-      
-      
     </>
   );
 }

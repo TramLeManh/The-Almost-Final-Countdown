@@ -6,7 +6,6 @@ export default function TimerComponents({ title = "Easy", time = 5 }: { title?: 
     const timeRef = useRef<number>();
     timeRef.current?.toString
     //Define một ref dialog có chức năng open
-    const dialog = useRef<{ open: () => void }>(null);
     const [timeExpire, setTimeExpire] = useState(false);
     const [remain, setRemain] = useState(time * 1000)
     const timeStart = remain > 0 && remain < time * 1000
@@ -16,7 +15,7 @@ export default function TimerComponents({ title = "Easy", time = 5 }: { title?: 
             setRemain(prev => prev - 10)
         }, 10);
     }
-
+    const dialog = useRef<{ open: () => void }>(null);
     function handleStop() {
         dialog.current?.open()
         clearInterval(timeRef.current);
@@ -24,13 +23,12 @@ export default function TimerComponents({ title = "Easy", time = 5 }: { title?: 
     function hanldeReset() {
         setRemain(time*1000);
     }
-
+   //CLear current interval time
     if (remain <= 0) {
         clearInterval(timeRef.current);
         dialog.current?.open()
         
     }
-
     return (
         <>
             <ResultModal ref={dialog} time={time} timeRemain={remain} onReset={hanldeReset}/>

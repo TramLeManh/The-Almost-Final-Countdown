@@ -13,7 +13,6 @@ export default function Player(play:PlayerProps) {
             nameRef.current.value = '';
         }
     }
-
     return (
         <section id="player">
             <h2>Welcome {enterName ?? "unknown"}</h2>
