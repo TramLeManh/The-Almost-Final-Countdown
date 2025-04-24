@@ -4,14 +4,15 @@ import React from "react";
 
 export default function TimerComponents({ title = "Easy", time = 5 }: { title?: string; time?: number }) {
     const timeRef = useRef<number | null>(null);
-    const dialogRef = useRef<{ open: () => void }>(null);
+    //Define một ref dialog có chức năng open
+    const dialog = useRef<{ open: () => void }>(null);
     const [timeStart, setTimeStart] = useState<boolean | null>(null);
     const [timeExpire, setTimeExpire] = useState(false);
 
     function handleStart() {
         timeRef.current = setTimeout(() => {
             handleExpire();
-            dialogRef.current?.open();
+            dialog.current?.open();
         }, time * 1000);
         setTimeStart(true);
         setTimeExpire(false);
@@ -30,7 +31,7 @@ export default function TimerComponents({ title = "Easy", time = 5 }: { title?: 
 
     return (
         <>
-            <ResultModal ref={dialogRef} time={time} />
+            <ResultModal ref={dialog} time={time} />
             <section className="challenge">
                 <h2>{title}</h2>
                 <p>{timeExpire && "You lose"}</p>
