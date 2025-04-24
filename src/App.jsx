@@ -4,7 +4,6 @@ import ResultModal from './components/ResultModal.jsx';
 function App() {
   return (
     <>
-    <ResultModal></ResultModal>
       <Player />
       <div id="challenges">
       <TimerComponents></TimerComponents>
