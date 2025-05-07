@@ -12,7 +12,8 @@ interface ResultModalHandle {
     open: () => void;
 }
 //forwardRef
-const ResultModal = forwardRef<ResultModalHandle, ResultModalProps>(({ time, timeRemain, onReset }, ref) => {
+const ResultModal = forwardRef<ResultModalHandle, ResultModalProps>((props, ref) => {
+    const { time, timeRemain, onReset }=props
     const dialogRef = useRef<HTMLDialogElement>(null);
     const lose = timeRemain <= 0
     const res = (timeRemain / 1000).toFixed(2)
@@ -22,12 +23,9 @@ const ResultModal = forwardRef<ResultModalHandle, ResultModalProps>(({ time, tim
             dialogRef.current?.showModal();
         }
     }));
-
     return createPortal(
         <dialog ref={dialogRef} className="result-modal" onClose={onReset}>
             {lose ? <h2>You lost</h2> : <h2>Your score is {score}</h2>}
-
-
             <p>
                 The target time was <strong>{time} seconds</strong>
             </p>
